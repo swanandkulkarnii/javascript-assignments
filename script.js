@@ -21,17 +21,51 @@ if (markBMI > johnBMI) {
 } else {
   console.log(`Mark's BMI (${markBMI}) and John's (${johnBMI} BMI are equal)`);
 }
-*/
+
 
 // Coding Challenge : 3
-let dolphinMatch1 = 96;
+let dolphinMatch1 = 196;
 let dolphinMatch2 = 108;
-let dolphinMatch3 = 89;
-let koalasMatch1 = 88;
-let koalasMatch2 = 91;
+let dolphinMatch3 = 189;
+let koalasMatch1 = 188;
+let koalasMatch2 = 191;
 let koalasMatch3 = 108;
 const averageDolphins = (dolphinMatch1 + dolphinMatch2 + dolphinMatch3) / 3;
 const averageKoalas = (koalasMatch1 + koalasMatch2 + koalasMatch3) / 3;
+
+const minimumScore = 100;
+
+if (averageDolphins > minimumScore && averageDolphins > minimumScore) {
+  console.log(
+    `Dolphins are the Champion with a average score ${averageDolphins}`
+  );
+} else if (averageKoalas > minimumScore && averageKoalas > averageDolphins) {
+  console.log(`Koalas are the Champion with a average score ${averageKoalas}`);
+} else if (
+  averageDolphins >= minimumScore &&
+  averageKoalas >= minimumScore &&
+  averageKoalas === averageDolphins
+) {
+  console.log(`It's a Draw! with average score ${averageKoalas}`);
+} else {
+  console.log("Both team failed to achieve minimum average score!!");
+}
+
+
+//Coding Challenge : 4
+let bill = 300;
+const tip =
+  bill >= 50 && bill <= 300
+    ? (bill * 15) / 100
+    : bill > 300
+    ? (bill * 20) / 100
+    : 0;
+console.log(
+  `The bill was ${bill}, the tip was ${tip} and the total value is ${
+    bill + tip
+  }`
+);
+*/
 
 /*
 // Values, Variables, let, const and var, basic operators
