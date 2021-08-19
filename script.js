@@ -153,6 +153,100 @@ function calAverage(score1, score2, score3) {
 const avgDolphins = calAverage(65, 59, 45);
 const avgKoalas = calAverage(85, 54, 41);
 console.log(avgDolphins, avgKoalas);
+
+
+// Coding Challenge : 2
+const bills = [300, 45, 555];
+const tips = [];
+const total = [];
+
+let calcTip = (bill) => {
+  if (bill >= 50 && bill <= 300) {
+    return (bill * 15) / 100;
+  } else {
+    return (bill * 20) / 100;
+  }
+};
+
+for (let i = 0; i < bills.length; i++) {
+  caltipsPerBill = calcTip(bills[i]);
+  calTotalPerBill = caltipsPerBill + bills[i];
+  tips.push(caltipsPerBill);
+  total.push(calTotalPerBill);
+}
+console.log(`Bills ${bills} || Tips ${tips} || Total ${total}`);
+
+
+//Coding Challenge : 3
+const mark = {
+  name: "Mark Miller",
+  mass: 78,
+  height: 1.69,
+  calcBMI() {
+    this.bmi = this.mass / this.height ** 2;
+    return this.bmi;
+  },
+};
+
+const john = {
+  name: "John Smith",
+  mass: 92,
+  height: 1.95,
+  calcBMI() {
+    this.bmi = this.mass / this.height ** 2;
+    return this.bmi;
+  },
+};
+
+mark.calcBMI();
+john.calcBMI();
+
+if (mark.bmi > john.bmi) {
+  console.log(
+    `${mark.name}'s BMI (${mark.bmi}) is higher than ${john.name}'s BMI(${john.bmi})`
+  );
+} else if (mark.bmi < john.bmi) {
+  console.log(
+    `${john.name}'s BMI (${john.bmi}) is higher than ${mark.name}'s BMI(${mark.bmi})`
+  );
+} else {
+  console.log(
+    `${mark.name}'s BMI (${mark.bmi}) and ${john.name}'s BMI(${john.bmi}) are Same`
+  );
+}
+
+
+// Coding Challenge : 4
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52];
+const tips = [];
+const total = [];
+
+let calcTip = (bill) => {
+  if (bill >= 50 && bill <= 300) {
+    return (bill * 15) / 100;
+  } else {
+    return (bill * 20) / 100;
+  }
+};
+
+for (let i = 0; i < bills.length; i++) {
+  caltipsPerBill = calcTip(bills[i]);
+  calTotalPerBill = caltipsPerBill + bills[i];
+  tips.push(caltipsPerBill);
+  total.push(calTotalPerBill);
+}
+
+let calAverage = (arr) => {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  return sum / arr.length;
+};
+console.log(`Bills ${bills} || Tips ${tips} || Total ${total}`);
+console.log(`Average of Total is ${calAverage(total)}`);
+console.log(`Average of Tips is ${calAverage(tips)}`);
+console.log(`Average of bills is ${calAverage(bills)}`);
 */
 
 /*
