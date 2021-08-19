@@ -1,4 +1,81 @@
 /*
+// Assignment : 2
+// Referencing and Copying in Objects
+const firstObj = {
+  id: 1,
+  name: "First",
+  referencing: true,
+};
+// In Objects it is always referencing ; not copying
+const secondObj = firstObj;
+
+console.log(firstObj, secondObj);
+
+secondObj.copying = false;
+
+console.log(firstObj, secondObj);
+
+// Referencing and Copying in Arrays
+const firstArray = [1, 2, 3, 4, 5];
+
+// Copying in Array
+let secondArray = [...firstArray]; // using ES6 spread operator
+firstArray.push(6);
+console.log(firstArray, secondArray);
+
+// Referencing in Array
+secondArray = firstArray;
+console.log(firstArray, secondArray);
+
+
+// Income tax - Exercise
+
+// Using Constructor in Class
+class Taxation {
+  constructor(baseSal) {
+    this.baseSal = baseSal;
+  }
+
+  calTax() {
+    return (this.baseSal * 10) / 100;
+  }
+
+  calPF() {
+    return (this.baseSal * 5) / 100;
+  }
+}
+
+const taxation = new Taxation(25000);
+
+const tax = taxation.calTax();
+const pf = taxation.calPF();
+
+console.log(`Tax: ${tax} || PF: ${pf}`);
+
+
+// Passing Argument to Methods in Class
+class Taxation {
+  calTax(baseSal) {
+    this.baseSal = baseSal;
+    return (this.baseSal * 10) / 100;
+  }
+
+  calPF(baseSal) {
+    this.baseSal = baseSal;
+    return (this.baseSal * 5) / 100;
+  }
+}
+
+const taxation = new Taxation();
+
+const tax = taxation.calTax(25000);
+const pf = taxation.calPF(25000);
+
+console.log(`Tax: ${tax} || PF: ${pf}`);
+*/
+
+/*
+// JS - Fundamentals I
 // Coding Challenge : 1
 const markHeight = 1.88;
 const johnHeight = 1.76;
@@ -65,6 +142,17 @@ console.log(
     bill + tip
   }`
 );
+
+
+// JS - Fundamentals II
+// Coding Challenge : 1
+function calAverage(score1, score2, score3) {
+  return (score1 + score2 + score3) / 3;
+}
+
+const avgDolphins = calAverage(65, 59, 45);
+const avgKoalas = calAverage(85, 54, 41);
+console.log(avgDolphins, avgKoalas);
 */
 
 /*
