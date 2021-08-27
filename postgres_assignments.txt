@@ -1,0 +1,223 @@
+-- Challenge - Data Defination Language
+
+create table owners (
+
+	id serial primary key,
+	firstname varchar(30),
+	lastname varchar(30),
+	city varchar(30),
+	state char(2)
+);
+
+create table pets (
+
+	id serial primary key,
+	species varchar(30),
+	full_name varchar(30),
+	age int,
+	owner_id int references owners(id)
+);
+
+
+alter table owners
+add column email varchar(30);
+
+select * from owners;
+
+alter table owners
+rename column firstname to first_name;
+
+alter table owners
+alter column last_name type varchar(50);
+
+alter table owners
+add constraint email unique (email);
+
+select * from owners;
+
+
+-- Challenge 2 - Data Manipullation Language
+
+insert into owners (first_name, last_name, city, state, email) values ('Samuel', 'Smith', 'Boston','MA', 'samsmith@gmail.com'),
+('Emma', 'Johnson', 'Seattle', 'WA', 'emjohnson@gmail.com'),
+('John', 'Oliver', 'New York', 'NY', 'johnoliver@gmail.com'),
+('Olivia', 'Brown', 'San Francisco', 'CA', 'oliviabrown.com'),
+('Simon', 'Smith', 'Dallas', 'TX', 'sismith@gmail.com'),
+(null, 'Maxwell', null, 'CA', 'lordmaxwell@gmail.com');
+
+select * from owners;
+
+
+insert into pets (species, full_name, age, owner_id) values ('Dog', 'Rex', 6, 1),
+('Rabbit', 'Fluffy', 2, 5),
+('Cat', 'Tom', 8, 2),
+('Mouse', 'Jerry',  2, 2),
+('Dog', 'Biggles', 4, 1),
+('Tortoise', 'Squirtle', 42, 3);
+
+select * from pets;
+
+
+update pets
+set age = 3
+where full_name = 'fluffy';
+
+
+
+delete from owners
+where last_name = 'Maxwell';
+
+
+
+
+
+
+-- Challenge 1 - Select Queries
+
+select * from movies;
+
+select movie_name, release_date from movies;
+
+select first_name, last_name from directors
+where nationality = 'American';
+
+select * from actors
+where gender = 'M' and date_of_birth > '1970-01-01';
+
+select movie_name from movies
+where movie_length > 90 and movie_lang = 'English';
+
+
+
+-- Challenge 2 - Select Queries
+select movie_name, movie_lang from movies
+where movie_lang in ('English', 'Spanish', 'Korean');
+
+
+select first_name, last_name from actors
+where last_name like 'M%'
+and date_of_birth between '1940-01-01' and '1969-12-31';
+
+select first_name, last_name, nationality from directors
+where nationality in ('British', 'French', 'German')
+and date_of_birth between '1950-01-01' and '1980-12-31';
+
+
+
+
+-- Challenge 3 - Select Queries
+
+select first_name, last_name, nationality, date_of_birth from directors
+where nationality = 'American'
+order by date_of_birth;
+
+
+select distinct nationality from directors;
+
+
+select first_name, last_name, date_of_birth from actors
+where gender = 'F'
+order by date_of_birth desc
+limit 10;
+
+
+
+select first_name, last_name, date_of_birth from actors
+where gender = 'F'
+order by date_of_birth desc
+fetch first 10 row only;
+
+
+
+
+-- Challenge 4 - Select Queries
+
+select * from movie_revenues
+where international_takings is not null
+order by international_takings desc
+limit 3;
+
+select concat_ws(' ', first_name, last_name) as full_name from directors;
+
+select concat(first_name, ' ', last_name) as full_name from directors;
+
+select * from actors
+where first_name is null or date_of_birth is null;
+
+
+
+
+
+-- Challenge 1 - Aggregate Functions
+
+select count(*) from actors
+where date_of_birth > '1970-01-01';
+
+
+select min(domestic_takings), max(domestic_takings) from movie_revenues;
+
+select sum(movie_length) from movies
+where age_certificate = '15';
+
+select count(nationality) from directors
+where nationality = 'Japanese';
+
+select avg(movie_length) from movies
+where movie_lang = 'Chinese';
+
+
+
+-- Challenge 2 - Aggregate Functions
+
+select nationality, count(nationality) from directors
+group by nationality;
+
+
+select movie_lang, age_certificate, sum(movie_length) from movies
+group by movie_lang, age_certificate;
+
+
+select movie_lang, sum(movie_length) from movies
+group by movie_lang
+having sum(movie_length) > 500;
+
+
+
+
+-- Challenge 1 - Joins
+
+select d.first_name, d.last_name, m.movie_name, m.release_date 
+from directors d 
+inner join movies m on d.director_id = m.director_id
+where m.movie_lang in ('Chinese', 'Korean', 'Japnese');
+
+
+select m.movie_name, m.release_date, mr.international_takings
+from movies m
+inner join movie_revenues mr on m.movie_id = mr.movie_id
+where m.movie_lang = 'English';
+
+
+select m.movie_name, mr.domestic_takings, mr.international_takings 
+from movies m
+join movie_revenues mr on m.movie_id = mr.movie_id
+where mr.domestic_takings is null or mr.international_takings is null
+order by m.movie_name;
+
+
+
+-- Challenge 2 - Joins
+
+select d.first_name, d.last_name, m.movie_name, m.age_certificate
+from directors d
+left join movies m on d.director_id = m.director_id
+where d.nationality = 'British';
+
+
+select d.first_name, d.last_name, count(m.movie_id)
+from directors d
+left join movies m on d.director_id = m.director_id
+group by d.first_name, d.last_name;
+
+
+
