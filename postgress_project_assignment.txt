@@ -1,0 +1,273 @@
+-- PostgresSQL Project Assignment --
+
+
+--  table project
+
+create table projects (
+
+	p_id serial primary key,
+	title varchar(50) not null,
+	description text,
+	logo bytea,
+	created_by varchar(50),
+	updated_by varchar(50),
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+insert into projects (title, description, logo, created_by, updated_by)  values ('Real-Time Weather Forecasting App', 'To develop a web-based weather application that provides real-time weather information of a location, such as
+Current temperature and Chances of precipitation', '', 'swanandkulkarni', 'swanandkulkarni'),
+('Basic Hospital Management System', 'To develop a system that hospitals can use to digitize and manage their data, such as patient information, appointments, lab test results, patient diagnosis details', 'basichms.png', 'ameyagosavi', 'ameyagosavi'),
+('Chat App', 'The project requires the development of a chat application that supports instant messaging', 'capp.jpeg', 'pallavijain', 'pallavijain'),
+('Optical Character Recognition (OCR) System', 'The optical character recognition (OCR) system should be able to process images and identify characters', '', 'swanandkulkarni', 'swanandkulkarni'),
+('News Feed Application', 'Development of an online news feed application that gives users access to the latest news and events', 'ocr.png', 'pratikmisal', 'pratikmisal'),
+('Library Management System', 'The library management system should make it easier for library professionals to manage their day-to-day activities, such as
+Issuing books,Keeping a record of all the books issued', 'libms.png', 'ameyagosavi', 'ameyagosavi'),
+('Virtual Private Network', 'The project demands creating an application that allows users to convert their public network into a private network', '', 'swanandkulkarni', 'swanandkulkarni'),
+('e-Authentication System', 'In this project, the aim is to develop an e-Authentication system that uses QR code and One Time Password (OTP) to assess the users authenticity', 'auth.jpeg', 'swanandkulkarni', 'swanandkulkarni'),
+('Real-Time Web Search Engine', 'This project requires developing a web search engine that displays a list of web resources relevant to the users search term', 'seo.jpeg', 'swanandkulkarni', 'swanandkulkarni'),
+('Task Management Application', 'To develop a dedicated task management app that allows users to Create personal profiles,Log in to their accounts securely with a proper authentication process,Add multiple tasks within the app', 'task.png', 'swanandkulkarni', 'swanandkulkarni');
+
+
+-- table modules
+
+create table modules (
+
+	m_id serial primary key,
+	p_id int references projects(p_id),
+	title varchar(50) not null,
+	description text, 
+	created_by varchar(50),
+	updated_by varchar(50),
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+insert into modules (p_id, title, description, created_by, updated_by) values ('1', 'Logger', 'A logging module is essential for system maintenance. Solving the issues and bugs without proper logging is a nightmare for every developer', 'swanandkulkarni', 'swanandkulkarni'),
+('2', 'User Management', 'A lot of systems are multi-user. There has to be solved logging the users in the system, their credentials', 'ameyagosavi', 'ameyagosavi'),
+('1', 'Command Stack with Undo/Redo Support', 'Editor applications need to handle commands which the user applies to the edited stuff', 'pratikmisal', 'pratikmisal'),
+('3', 'Change History', 'If you handle critical data, you should record the history of changes in persistent storage', 'ameyagosavi', 'ameyagosavi'),
+('1', 'Setting Manager', 'Every user has their specific needs that’s why usually one configuration of an application is not good for everyone', 'pallavijain', 'pallavijain'),
+('2', 'Entity Register', 'The software systems exist in the real world and that’s why they include relationships to it', 'swanandkulkarni', 'swanandkulkarni'),
+('1', 'Document Management System', 'Businesses work with various kinds of documents – texts, pictures, diagrams, spreadsheets, presentations', 'swanandkulkarni', 'swanandkulkarni'),
+('4', 'Content Management System', 'Content Management System (CMS) supports work with articles and their categorization, the publication process', 'pratikmisal', 'pratikmisal'),
+('5', 'Scheduler', 'Some tasks are unique, other ones are repetitive – this must be done with a defined regularity', 'ameyagosavi', 'ameyagosavi'),
+('9', 'Resource Manager', 'The resource manager organizes the images, texts, media and other files used within an application', 'swanandkulkarni', 'swanandkulkarni');
+
+
+
+
+create table apis (
+
+	api_id serial primary key,
+	m_id int references modules(m_id),
+	title varchar(50) not null,
+	description text, 
+	methods char(6),
+	request varchar(20),
+	response varchar(20),
+	created_by varchar(50),
+	updated_by varchar(50),
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+insert into apis (m_id, title, description, methods, request, response, created_by, updated_by) values ('1', 'Web APIs', 'Web APIs are APIs that can be accessed using the HTTP protocol', 'GET', 'create', '201 CREATED', 'swanandkulkarni', 'swanandkulkarni'),
+('2', 'Open APIs', 'Open APIs, also known as external or public APIs, are available to developers and other users with minimal restrictions', 'POST', 'batchUpdate', '204 NO CONTENT', 'ameyagosavi', 'ameyagosavi'),
+('4', 'Internal APIs', 'In contrast to open APIs, internal APIs are designed to be hidden from external users', 'DELETE', 'get', '400 BAD REQUEST', 'pratikmisal', 'pratikmisal'),
+('2', 'Partner APIs', 'Partner APIs are technically similar to open APIs, but they feature restricted access, often controlled through a third-party API gateway', 'GET', 'create', '201 CREATED', 'swanandkulkarni', 'swanandkulkarni'),
+('1', 'Composite APIs', 'Composite APIs allow developers to access several endpoints in one call', 'PUT', 'batchUpdate', '403 FORBIDDEN', 'ameyagosavi', 'ameyagosavi'),
+('4', 'REST', 'REST (representational state transfer) is a very popular web API architecture', 'POST', 'get', '204 NO CONTENT', 'swanandkulkarni', 'swanandkulkarni'),
+('3', 'SOAP', 'SOAP (simple object access protocol) is an established web API protocol', 'DELETE', 'create', '403 FORBIDDEN', 'pallavijain', 'pallavijain'),
+('6', 'JSON-RPC', 'An RPC is a remote procedural call protocol. XML-RPC uses XML to encode its calls', 'GET', 'batchUpdate', '400 BAD REQUEST', 'pratikmisal', 'pratikmisal'),
+('8', 'XML-RPC', 'JSON-RPC uses JSON for the encoding. Both protocols are simple', 'PUT', 'create', '204 NO CONTENT', 'ameyagosavi', 'ameyagosavi'),
+('3', 'External service APIs', 'third-party services that can be embedded in the company’s existing services to bring additional value', 'POST', 'get', '201 CREATED', 'swanandkulkarni', 'swanandkulkarni');
+
+
+
+
+-- table users
+
+create table users (
+
+	u_id serial primary key,
+	first_name varchar(30) not null,
+	last_name varchar(30),
+	gender char(1),
+	email_id varchar(30) unique not null,
+	profile bytea,
+	created_by varchar(50),
+	updated_by varchar(50),
+	created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+insert into users (first_name, last_name, gender, email_id, profile, created_by, updated_by) values ('swanand', 'kulkarni', 'M', 'swanandkulkarni@gmail.com',  '', 'swanandkulkarni', 'swanandkulkarni'),
+('ameya', 'gosavi', 'M', 'ameyagosavi@gmail.com',  '', 'ameyagosavi', 'ameyagosavi'),
+('pratik', 'misal', 'M', 'pratikmisal@gmail.com',  '', 'pratikmisal', 'pratikmisal'),
+('pallavi', 'jain', 'F', 'pallavijain@gmail.com',  '', 'pallavijain', 'pallavijain'),
+('husain', 'rounak', 'M', 'husainrounak@gmail.com',  '', 'husainrounak', 'husainrounak'),
+('krishna', 'patil', 'M', 'krishnapatil@gmail.com',  '', 'krishnapatil', 'krishnapatil'),
+('prajkta', 'sutar', 'F', 'prajktasutar@gmail.com',  '', 'prajktasutar', 'prajktasutar'),
+('kanchan', 'kumari', 'F', 'kanchankumari@gmail.com',  '', 'kanchankumari', 'kanchankumari'),
+('riya', 'viz', 'F', 'riyaviz@gmail.com',  '', 'riyaviz', 'riyaviz'),
+('amitesh', 'kumar', 'M', 'amiteshkumar@gmail.com',  '', 'amiteshkumar', 'amiteshkumar');
+
+
+-- table users_projects
+
+create table users_projects (
+
+	up_id serial primary key,
+	u_id int references users(u_id),
+	p_id int references projects(p_id)
+);
+
+insert into users_projects (u_id, p_id) values ('1', '1'),
+('2', '1'),
+('3', '3'),
+('2', '4'),
+('3', '5'),
+('1', '1'),
+('4', '2'),
+('9', '3'),
+('7', '6'),
+('1', '2');
+
+-- table users_address
+
+create table users_address (
+
+	ua_id serial primary key,
+	u_id int references users(u_id),
+	address_line1 varchar(80),
+	address_line2 varchar(80),
+	city varchar(20),
+	states varchar(20),
+	zip_code varchar(16),
+	country varchar(20)
+);
+
+
+insert into users_address (u_id, address_line1, address_line2, city, states, zip_code, country) values ('1', 'Ganseshnagar', 'Shirol', 'Kolhapur', 'Maharashtra', 'PIN416103', 'India'),
+('2', 'Flat No 102', 'Ramnagar', 'Ahemadnagar', 'Maharashtra', 'PIN485003', 'India'),
+('3', 'House No 22', 'Ganga Colony', 'Satara', 'Maharashtra', 'PIN415203', 'India'),
+('4', '', 'Keshavnagar', 'Amritsar', 'Punjab', 'PIN502103', 'India'),
+('5', 'Flat No 301', '', 'Pune', 'Maharashtra', 'PIN652403', 'India'),
+('6', 'House No 50', 'Hari Colony', 'Nasik', 'Maharashtra', 'PIN852147', 'India'),
+('7', 'House No 28', '', 'Sangli', 'Maharashtra', 'PIN415845', 'India'),
+('8', '', 'Flat No 200', 'Benguluru', 'Karnataka', 'PIN485236', 'India'),
+('9', 'House No 93', 'Gokul Colony', 'Chennai', 'TamilNadu', 'PIN623412', 'India'),
+('10', 'Flat No 65', '', 'Patna', 'Bihar', 'PIN968532', 'India');
+
+
+
+
+-- list of project
+select * from projects;
+
+-- list of modules
+select * from modules;
+
+-- list of apis
+select * from apis;
+
+-- list of users
+select * from users;
+
+-- list of users address
+select * from users_address;
+
+
+-- list of project and its module and API
+select p.p_id as project_id, p.title as project_title, m.title as module_title, a.title as api_title 
+from projects p
+inner join modules m on p.p_id = m.p_id
+inner join apis a on a.m_id = a.m_id
+
+
+
+-- list of API with project name
+select p.title as project_title, a.title as api_title from projects p
+join modules m on p.p_id = m.p_id
+join apis a on a.m_id = a.m_id;
+
+
+-- total number of APIs module wise
+select m.title as module_title, count(a.*) as api_count from projects p
+join modules m on p.p_id = m.p_id
+join apis a on m.m_id = a.m_id
+group by m.title;
+
+
+-- total number of APIs project wise
+select  p.title as project_title, count(a.*) as api_count from projects p
+join modules m on p.p_id = m.p_id
+join apis a on m.m_id = a.m_id
+group by p.title;
+
+
+-- list of user with user Address
+select  CONCAT_WS(' ', u.first_name, u.last_name) as full_name, ua.address_line1, ua.address_line2 from users u
+left join users_address ua on u.u_id = ua.u_id
+where ua.address_line1 is not null or ua.address_line2 is not null;
+
+
+
+-- list of project assigned to particular user
+select p.title, CONCAT_WS(' ', u.first_name, u.last_name) as full_name from projects p
+join users_projects up on p.p_id = up.p_id
+join users_address ua on up.u_id = ua.u_id
+join users u on ua.u_id = u.u_id;
+
+
+-- project with project title using LIKE
+select p.title from projects p
+where p.title like 'R%';
+
+
+
+-- user list who have same country
+select u.first_name, u.last_name, ua.address_line1, ua.address_line2, ua.country from users u
+join users_address ua on u.u_id = ua.u_id;
+
+
+--  user list by zipcode
+select u.first_name, u.last_name, ua.address_line1, ua.address_line2, ua.zip_code from users u
+join users_address ua on u.u_id = ua.u_id;
+
+
+-- list of API whose method is POST
+select a.title, a.description, a.methods from apis a
+where a.methods = 'POST';
+
+
+-- list of API whose method is PUT
+select a.title, a.description, a.methods from apis a
+where a.methods = 'PUT';
+
+
+-- list of API whose method is DELETE
+select a.title, a.description, a.methods from apis a
+where a.methods = 'DELETE';
+
+
+-- list of API whose method is GET
+select a.title, a.description, a.methods from apis a
+where a.methods = 'GET';
+
+
+-- list of API for specific module
+select m.title as module_title, a.title as api_title from modules m
+join apis a on m.m_id = a.m_id
+order by m.title;
+
+
+-- list of module for specific project
+select p.title as project_title, m.title as module_title  from projects p
+join modules m on p.p_id = m.p_id
+order by p.title;
