@@ -1,4 +1,4 @@
--- PostgresSQL Project Assignment --
+﻿-- PostgresSQL Project Assignment --
 
 
 --  table project
@@ -264,10 +264,10 @@ where a.methods = 'GET';
 -- list of API for specific module
 select m.title as module_title, a.title as api_title from modules m
 join apis a on m.m_id = a.m_id
-order by m.title;
+where m.title = 'Change History';
 
 
 -- list of module for specific project
 select p.title as project_title, m.title as module_title  from projects p
 join modules m on p.p_id = m.p_id
-order by p.title;
+where p.title = 'Chat App';
