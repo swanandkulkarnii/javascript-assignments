@@ -14,21 +14,17 @@ class Users extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['project_id', 'module_id', 'url', 'title', 'description', 'method', 'request', 'response'], 'required'],
+            [['first_name', 'last_name', 'gender', 'email'], 'required'],
         ];
     }
 
     public function attributeLabels()
     {
-        return [
-            'project_id' => 'Project Id', 
-            'module_id' => 'Module Id', 
-            'url' => 'URL', 
-            'title' => 'Title', 
-            'description' => 'Description', 
-            'method' => 'Method', 
-            'request' => 'Request', 
-            'response' => 'Response',
+        return [ 
+            'first_name' => 'First Name', 
+            'last_name' => 'Last Name', 
+            'gender' => 'Gender',
+            'email' => 'Email',
         ];
     }
 

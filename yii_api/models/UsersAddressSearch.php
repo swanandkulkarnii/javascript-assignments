@@ -4,16 +4,16 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Users;
+use app\models\UsersAddress;
 
 
-class UsersSearch extends Users
+class UsersAddressSearch extends UsersAddress
 {
-    public $firstName;
+    public $search_city;
     public function rules()
     {
         return [
-            [['firstName'], 'safe'],
+            [['search_city'], 'safe'],
         ];
     }
 
@@ -32,10 +32,10 @@ class UsersSearch extends Users
      */
     public function search($params)
     {
-        $query = Users::find();
+        $query = UsersAddress::find();
         
         $this->load($params);
-        $query->andFilterWhere(['like', 'first_name', $this->firstName]);
+        $query->andFilterWhere(['like', 'city', $this->search_city]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -43,7 +43,7 @@ class UsersSearch extends Users
                 'pageSize' => 2,
             ],
             'sort' => [
-                'attributes' => ['first_name'],
+                'attributes' => ['city'],
             ]
         ]);
 
