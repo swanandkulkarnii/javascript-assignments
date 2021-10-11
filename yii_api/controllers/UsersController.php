@@ -1,36 +1,47 @@
 <?php
 
 namespace app\controllers;
-
-use Yii;
+use app\models\Users;
+use app\models\UsersSearch;
 use yii\web\Controller;
-use app\models\Api;
-use app\models\ApiSearch;
-use app\models\Module;
-use app\APIManager\APIInterface;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use app\UsersManager\UsersInterface;
+use yii\di\Container;
+use Yii;
 
-
-class ApiController extends Controller
-{    
+class UsersController extends Controller
+{
     protected $finder;
-    public function __construct($id, $module, APIInterface $finder, $config = [])
+    public function __construct($id, $module, UsersInterface $finder, $config = [])
     {
         $this->finder = $finder;
         parent::__construct($id, $module, $config);
     }
-
-    // Api Index
+    public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ],
+            ]
+        );
+    }
+    
     public function actionIndex()
     {
-        $searchModel = new ApiSearch();
-        $dataProvider = $searchModel->search($this->request->post());
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        
+        $model = $this->finder->index();
+        
+        return $this->render('index', $model);
     }
 
-    // Api View
+
     public function actionView($id)
     {
         $model = $this->finder->view($id);
@@ -41,7 +52,7 @@ class ApiController extends Controller
         }
     }
 
-    // Api Create
+
     public function actionCreate()
     {
         $model = $this->finder->create();
@@ -53,8 +64,7 @@ class ApiController extends Controller
             'model' => $model,
         ]);
     }
-
-    // Api Update
+    
     public function actionUpdate($id)
     {
         $model = $this->finder->update($id);
@@ -63,10 +73,9 @@ class ApiController extends Controller
             return $this->render('update', [
             'model' => $model,
             ]);
-        }
+        }    
+        
     }
-
-    // Api Delete
     public function actionDelete($id)
     {
         $model = $this->finder->delete($id);
@@ -76,25 +85,7 @@ class ApiController extends Controller
         }
         return $this->redirect(['index']);
     }
-
-
-    // Api List
-    public function actionList($id)
-    {               
-        $modules = Module::find()
-                ->where(['project_id' => $id])
-                ->orderBy('id DESC')
-                ->all();
-                
-        if (!empty($modules)) {
-            foreach($modules as $module) {
-                echo "<option value='".$module->id."'>".$module->title."</option>";
-            }
-        } else {
-            echo "<option>-</option>";
-        }
-        
-    }
 }
 
-Yii::$container->set('app\APIManager\APIInterface', 'app\APIManager\APIManager');
+//$container = new Container;
+Yii::$container->set('app\UsersManager\UsersInterface', 'app\UsersManager\UsersManager');

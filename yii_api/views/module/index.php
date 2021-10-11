@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'project_title',
                 'value' => 'project.title',
+                'filter' => false,
             ],
             'title',
             'description',
@@ -51,15 +52,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Action',
                 'headerOptions' => ['width:90'],
-                'template' => '{update} {delete} {view} {my_button}',
-                'buttons' => [
-                    'my_button' => function ($url, $model, $key) {
-                        return Html::a('custom-update', ['update', 'id'=>$model->id]);
-                    },
+                'template' => '{update}<br>{delete}<br>{view}',
+                // 'buttons' => [
+                //     'my_button' => function ($url, $model, $key) {
+                //         return Html::a('custom-update', ['update', 'id'=>$model->id]);
+                //     },
                     // 'update' => function ($url, $model, $key) {
                     //     return Html::a('update', ['update', 'id'=>$model->title]);
                     // }
-                ]
+                // ]
             ],
         ],
         'layout' => '{items}{pager}{summary}',

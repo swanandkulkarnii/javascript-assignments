@@ -11,6 +11,7 @@ class ModuleSearch extends Module
 {
     public $module_title;
     public $project_title;
+    public $project_id;
     public function rules()
     {
         return [
@@ -37,16 +38,24 @@ class ModuleSearch extends Module
         $query->joinWith(['project']);
 
         $this->load($params);
-        $query->andFilterWhere(['like', 'title', $this->module_title])
-        ->andFilterWhere(['like', 'project.title', $this->project_title]);
+        // echo "<pre>";
+        // print_r($_GET); 
+        if(isset($_GET['project_id'])){
 
+            $this->project_id = $_GET['project_id'];
+        }
+        $query->orFilterWhere(['like', 'module.title', $this->module_title])
+        ->orFilterWhere(['like', 'project.title', $this->project_title])
+        ->andFilterWhere(['=', 'project_id', $this->project_id]);
+
+        
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 2,
             ],
             'sort' => [
-                'attributes' => ['title'],
+                'attributes' => ['title', 'project_title'],
             ]
         ]);
 

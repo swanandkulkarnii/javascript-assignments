@@ -35,6 +35,8 @@ class m211005_072010_create_api_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey(name:'FK_api_module', table: 'api');
+        $this->dropForeignKey(name:'FK_api_project', table: 'api');
         $this->dropTable('{{%api}}');
     }
 }

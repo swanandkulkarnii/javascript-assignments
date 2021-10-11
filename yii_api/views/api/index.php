@@ -25,6 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($searchModel, 'api_title')->textInput(['maxlength' => true, 'placeholder' => 'Search Title...']) ?>
     <?= $form->field($searchModel, 'api_url')->textInput(['maxlength' => true, 'placeholder' => 'Search Url...']) ?>
+    <?= $form->field($searchModel, 'project_title')->textInput(['maxlength' => true, 'placeholder' => 'Search Project Title...']) ?>
+    <?= $form->field($searchModel, 'module_title')->textInput(['maxlength' => true, 'placeholder' => 'Search Module Title...']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
@@ -40,10 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => 'yii\grid\SerialColumn',
                 'header' => 'Sr.No.',
+            ], 
+            [
+                'attribute' => 'project_title',
+                'value' => 'project.title',
             ],
-            'id', 
-            'project_id', 
-            'module_id', 
+            [
+                'attribute' => 'module_title',
+                'value' => 'module.title',
+            ],  
             'url', 
             'title', 
             'description', 

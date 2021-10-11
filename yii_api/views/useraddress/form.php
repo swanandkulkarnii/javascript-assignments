@@ -12,9 +12,17 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'address 1')->textInput(['maxlength' => true]) ?> 
 
-    <?= $form->field($model, 'description')->textInput() ?>
+    <?= $form->field($model, 'address 2')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'zip')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'state')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

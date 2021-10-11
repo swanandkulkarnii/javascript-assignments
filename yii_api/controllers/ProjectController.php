@@ -1,78 +1,91 @@
 <?php
 
 namespace app\controllers;
-
-use Yii;
-use yii\web\Controller;
 use app\models\Project;
 use app\models\ProjectSearch;
-
+use yii\web\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
+use app\ProjectManager\ProjectInterface;
+use yii\di\Container;
+use Yii;
 
 class ProjectController extends Controller
-{    
-    // Project Index
+{
+    protected $finder;
+    public function __construct($id, $module, ProjectInterface $finder, $config = [])
+    {
+        $this->finder = $finder;
+        parent::__construct($id, $module, $config);
+    }
+    public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(),
+            [
+                'verbs' => [
+                    'class' => VerbFilter::className(),
+                    'actions' => [
+                        'delete' => ['POST'],
+                    ],
+                ],
+            ]
+        );
+    }
+    
     public function actionIndex()
     {
-        $searchModel = new ProjectSearch();
-        $dataProvider = $searchModel->search($this->request->post());
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        
+        $model = $this->finder->index();
+        
+        return $this->render('index', $model);
     }
 
-    // Project View
+
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $model = $this->finder->view($id);
+        if(!empty($model)){
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        }
     }
 
-    // Project Create
+
     public function actionCreate()
     {
-        $model = new Project();
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        $model = $this->finder->create();
+        if(isset($model->id))
+        {
+            return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('create', [
             'model' => $model,
         ]);
     }
-
-    // Project Update
+    
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-        return $this->render('update', [
+        $model = $this->finder->update($id);
+        if(isset($model->id))
+        {
+            return $this->render('update', [
             'model' => $model,
-        ]);
+            ]);
+        }    
+        
     }
-
-    // Project Delete
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->finder->delete($id);
+        if($model == 1)
+        {
+            return $this->redirect(['index']);
+        }
         return $this->redirect(['index']);
     }
-
-    // Find Project Model
-    protected function findModel($id)
-    {
-        if (($model = Project::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
-    }
 }
+
+//$container = new Container;
+Yii::$container->set('app\ProjectManager\ProjectInterface', 'app\ProjectManager\ProjectManager');

@@ -2,6 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use app\models\Project;
+use app\models\Module;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Country */
@@ -29,12 +34,26 @@ $responses = [
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'project_id')->dropdownList(
+        ArrayHelper::map(Project::find()->all(),'id','title'
+    ),
+    [
+        'prompt' => 'Select Project name',
+        'onchange'=>'
+                $.post( "'.Url::toRoute(['api/list', 'id' => '' ]).'"+$(this).val(), function( data ) {
+                  $( "select#title" ).html( data );
+                });
+            '
+    ]); ?>
+    <?=
+    $form->field($model, 'module_id')
+        ->dropDownList(
+            ArrayHelper::map(Module::find()->asArray()->all(), 'id', 'title'),
+            ['id'=>'title']
+        );?>
+
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'project_id')->textInput(['maxlength' => true, 'placeholder' => 'Select Project...']) ?>
-
-    <?= $form->field($model, 'module_id')->textInput(['maxlength' => true]) ?>
-
+    
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'method')->dropDownList($methods, ['prompt'=>'Select Method...']); ?>

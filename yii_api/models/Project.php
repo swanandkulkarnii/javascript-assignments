@@ -26,4 +26,12 @@ class Project extends \yii\db\ActiveRecord
             'description' => 'Description',
         ];
     }
+
+    public function getModules(){
+        return $this->hasMany(Module::className(), ['id' => 'module_id']);
+    }
+
+    public function getApis(){
+        return $this->hasMany(Api::className(), ['id' => 'api_id']);
+    }
 }

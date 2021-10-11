@@ -46,9 +46,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Action',
                 'headerOptions' => ['width:90'],
-                'template' => '{update}<br>{delete}<br>{view}',
-                'buttons' => ['class' => 'pagination'],
-                
+                'template' => '{update}<br>{delete}<br>{view}<br>{view_modules}<br>{view_apis}',
+                'buttons' => [
+                        'view_modules' => function ($url, $model, $key) {
+                            return Html::a('View Modules', ['/module', 'project_id'=>$model->id]);
+                        },
+                        'view_apis' => function ($url, $model, $key) {
+                            return Html::a('View Apis', ['/api', 'project_id'=>$model->id]);
+                        },
+                ]
             ],
         ],
         'layout' => '{items}{pager}{summary}',

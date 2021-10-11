@@ -4,11 +4,11 @@ namespace app\models;
 
 use Yii;
 
-class Api extends \yii\db\ActiveRecord
+class Users extends \yii\db\ActiveRecord
 {
     public static function tableName()
     {
-        return 'api';
+        return 'users';
     }
 
     public function rules()
@@ -32,11 +32,11 @@ class Api extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getProject(){
-        return $this->hasOne(Project::className(), ['id' => 'project_id']);
-    }
+    // public function getProject(){
+    //     return $this->hasOne(Project::className(), ['id' => 'project_id']);
+    // }
 
-    public function getModule(){
-        return $this->hasOne(Module::className(), ['id' => 'module_id']);
-    }
+    // public function getModule(){
+    //     return $this->hasOne(Module::className(), ['id' => 'module_id']);
+    // }
 }

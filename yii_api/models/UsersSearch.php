@@ -4,20 +4,16 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Api;
+use app\models\Users;
 
 
-class ApiSearch extends Api
+class UsersSearch extends Users
 {
-    public $api_title;
-    public $api_url;
-    public $module_title;
     public $project_title;
-
     public function rules()
     {
         return [
-            [['api_title', 'api_url', 'project_title', 'module_title'], 'safe'],
+            [['project_title'], 'safe'],
         ];
     }
 
@@ -36,15 +32,10 @@ class ApiSearch extends Api
      */
     public function search($params)
     {
-        $query = Api::find();
-        $query->joinWith(['project']);
-        $query->joinWith(['module']);
+        $query = Users::find();
         
         $this->load($params);
-        $query->orFilterWhere(['like', 'title', $this->api_title])
-        ->orFilterWhere(['like', 'url', $this->api_url])
-        ->orFilterWhere(['like', 'project.title', $this->project_title])
-        ->orFilterWhere(['like', 'module.title', $this->module_title]);
+        $query->andFilterWhere(['like', 'title', $this->project_title]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
